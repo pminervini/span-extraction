@@ -16,7 +16,6 @@ import sys
 
 OPTS = None
 
-
 def parse_args():
   parser = argparse.ArgumentParser('Official evaluation script for SQuAD version 2.0.')
   parser.add_argument('data_file', metavar='data.json', help='Input data JSON file.')
