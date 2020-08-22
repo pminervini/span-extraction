@@ -1,0 +1,10 @@
+numpy
+torch
+nlp
+transformers
+tensorboard
+tensorboardX
+tqdm
+pytest
+pytest-xdist
+pytest-forked
