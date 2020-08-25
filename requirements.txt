@@ -6,6 +6,8 @@ optuna
 tensorboard
 tensorboardX
 tqdm
+nltk
+jsonlines
 pytest
 pytest-xdist
 pytest-forked
