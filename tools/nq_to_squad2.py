@@ -28,12 +28,13 @@ with jsonlines.open('data/nq/filtered/train.jsonl') as f:
                     {
                         'qas': [
                             {
-                                'question': question,
+                                # 'question': question,
+                                'question': '',
                                 'id': f'{example_id}:{i}',
                                 'answers': [
                                     {
                                         'text': answer,
-
+                                        'answer_start': context.index(answer)
                                     }
                                 ],
                                 "is_impossible": False
@@ -44,4 +45,7 @@ with jsonlines.open('data/nq/filtered/train.jsonl') as f:
                 ]
             }
 
+            squad_like['data'] += [squad_like_entry]
 
+with open("/dev/stdout", "w") as outfile:
+    json.dump(squad_like, outfile)
