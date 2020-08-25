@@ -2,6 +2,7 @@ numpy
 torch
 nlp
 transformers
+optuna
 tensorboard
 tensorboardX
 tqdm
