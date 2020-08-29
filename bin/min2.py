@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import sys
 
 import numpy as np
 
@@ -74,9 +73,6 @@ loss_values = []
 
 for epoch_id in range(1):
     for i, batch in enumerate(train_dataloader):
-        # print(type(batch), len(batch))
-        # print([elem.shape for elem in batch])
-
         model.train()
 
         batch = tuple(t.to(device) for t in batch)
@@ -99,7 +95,7 @@ for epoch_id in range(1):
 
         loss_values += [loss.item()]
 
-        if (i + 1) % 5000 == 0:
+        if (i + 1) % 100 == 0:
             mean = np.mean(loss_values)
             std = np.std(loss_values)
             print(f'{epoch_id}:{i}\t{mean} ± {std}')
@@ -111,6 +107,9 @@ for epoch_id in range(1):
         scheduler.step()
 
         model.zero_grad()
+
+        if i > 1000:
+            break
 
 dev_examples = processor.get_dev_examples(None, filename='data/squad-v2.0/dev-v2.0.json')
 
