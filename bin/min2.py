@@ -74,7 +74,6 @@ loss_values = []
 for epoch_id in range(1):
     for i, batch in enumerate(train_dataloader):
         model.train()
-
         batch = tuple(t.to(device) for t in batch)
 
         inputs = {
@@ -86,9 +85,7 @@ for epoch_id in range(1):
         }
 
         del inputs["token_type_ids"]
-
         outputs = model(**inputs)
-
         loss = outputs[0]
 
         loss.backward()
@@ -105,7 +102,6 @@ for epoch_id in range(1):
 
         optimizer.step()
         scheduler.step()
-
         model.zero_grad()
 
         if i > 1000:
@@ -121,7 +117,7 @@ dev_features, dev_dataset = squad_convert_examples_to_features(
     max_query_length=64,
     is_training=False,
     return_dataset="pt",
-    threads=32)
+    threads=4)
 
 eval_sampler = SequentialSampler(dev_dataset)
 eval_dataloader = DataLoader(dev_dataset, sampler=eval_sampler, batch_size=16)
@@ -145,7 +141,7 @@ for batch in tqdm(eval_dataloader):
         outputs = model(**inputs)
 
     for i, feature_index in enumerate(feature_indices):
-        eval_feature = features[feature_index.item()]
+        eval_feature = dev_features[feature_index.item()]
         unique_id = int(eval_feature.unique_id)
 
         output = [to_list(output[i]) for output in outputs]
@@ -157,7 +153,7 @@ for batch in tqdm(eval_dataloader):
 
 predictions = compute_predictions_logits(
     dev_examples,
-    features,
+    dev_features,
     all_results,
     20,
     30,
